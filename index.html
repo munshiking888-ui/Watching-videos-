@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Pro - Ads Fixed</title>
+    
+    <!-- ADS SDK SCRIPT (HTTPS ke saath fix kiya gaya) -->
+    <script src='https://libtl.com/sdk.js' data-zone='10347250' data-sdk='show_10347250'></script>
+
+    <style>
+        :root { --yellow: #FFB400; --black: #000; --gray: #1a1a1a; }
+        body { background-color: #121212; color: white; font-family: 'Segoe UI', Arial; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
+        .app-container { width: 100%; max-width: 420px; background-color: var(--black); border: 5px solid var(--yellow); border-radius: 40px; display: flex; flex-direction: column; position: relative; margin: 10px; }
+        .header { padding: 20px; text-align: center; border-bottom: 1px solid #222; }
+        .balance-box { background: var(--yellow); color: black; padding: 12px; border-radius: 20px; font-size: 24px; font-weight: 800; display: inline-block; min-width: 140px; }
+        .content { flex: 1; padding: 20px; overflow-y: auto; padding-bottom: 100px; }
+        .section { display: none; text-align: center; }
+        .active-section { display: block; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* BUTTONS & CARDS */
+        .coin-btn { width: 150px; height: 150px; background: radial-gradient(circle, #ffe359, #FFB400); border: 6px solid #fff; border-radius: 50%; font-size: 70px; display: flex; align-items: center; justify-content: center; margin: 30px auto; cursor: pointer; user-select: none; }
+        .coin-btn:active { transform: scale(0.9); }
+        .word-card { background: var(--gray); padding: 25px; border-radius: 20px; border: 1px solid var(--yellow); margin-top: 15px; }
+        .input-box { width: 85%; padding: 12px; border-radius: 12px; border: 2px solid #444; background: #000; color: white; font-size: 18px; text-align: center; }
+        .video-task { background: var(--gray); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--yellow); }
+        .watch-btn { background: var(--yellow); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+        /* NAVIGATION */
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; height: 75px; background: #0a0a0a; display: flex; border-top: 1px solid #222; border-radius: 0 0 35px 35px; }
+        .nav-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #555; cursor: pointer; font-size: 12px; }
+        .nav-tab.active { color: var(--yellow); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <div class="balance-box">🪙 <span id="balance">0.00</span></div>
+    </div>
+
+    <div class="content">
+        <!-- TAP SECTION -->
+        <div id="tap-sec" class="section active-section">
+            <h2>Tap & Earn</h2>
+            <div class="coin-btn" onclick="doTap()">💰</div>
+            <p>Each tap = +1 Coin</p>
+        </div>
+
+        <!-- TYPE SECTION -->
+        <div id="type-sec" class="section">
+            <h2>Type to Earn</h2>
+            <div class="word-card">
+                <div id="targetWord" style="font-size:28px; color:var(--yellow); font-weight:bold; margin-bottom:15px;">PRO_ADS</div>
+                <input type="text" id="typeField" class="input-box" placeholder="Type here..." oninput="doType()">
+            </div>
+        </div>
+
+        <!-- VIDEO SECTION -->
+        <div id="video-sec" class="section">
+            <h2>Video Rewards</h2>
+            <div class="video-task">
+                <div><b>Main Ad</b><br><small>+100 Coins</small></div>
+                <button class="watch-btn" onclick="runAd('rewarded', 100)">WATCH</button>
+            </div>
+            <div class="video-task">
+                <div><b>Bonus Popup</b><br><small>+50 Coins</small></div>
+                <button class="watch-btn" onclick="runAd('popup', 50)">CLAIM</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-tab active" onclick="switchTab('tap-sec', this)"><span>👆</span>Tap</div>
+        <div class="nav-tab" onclick="switchTab('type-sec', this)"><span>⌨️</span>Type</div>
+        <div class="nav-tab" onclick="switchTab('video-sec', this)"><span>📺</span>Video</div>
+    </div>
+</div>
+
+<script>
+    let balance = 0;
+    const words = ["WEALTH", "CASH", "ADS_WIN", "MOBILE", "EARNER"];
+
+    // 1. ADS FUNCTION (Centralized for better performance)
+    function runAd(type, reward) {
+        // Check if SDK exists
+        if (typeof show_10347250 === 'undefined') {
+            alert("Ads are still loading or blocked by your browser. Please refresh or turn off Ad-Block.");
+            return;
+        }
+
+        if (type === 'rewarded') {
+            show_10347250().then(() => {
+                balance += reward;
+                updateUI();
+                alert('Success! Reward added.');
+            }).catch(e => alert("Ad not ready. Try again in 5 seconds."));
+        } else {
+            show_10347250('pop').then(() => {
+                balance += reward;
+                updateUI();
+            }).catch(e => console.log("Popup Error"));
+        }
+    }
+
+    // 2. AUTO-ADS (In-App Interstitial)
+    window.onload = function() {
+        setTimeout(() => {
+            if (typeof show_10347250 !== 'undefined') {
+                show_10347250({
+                    type: 'inApp',
+                    inAppSettings: { frequency: 2, capping: 0.1, interval: 30, timeout: 5, everyPage: false }
+                });
+            }
+        }, 3000); // 3 seconds wait for SDK to load
+    };
+
+    function switchTab(sectionId, el) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active-section');
+        el.classList.add('active');
+    }
+
+    function doTap() {
+        balance += 1;
+        updateUI();
+        if(navigator.vibrate) navigator.vibrate(15);
+    }
+
+    function doType() {
+        let target = document.getElementById('targetWord').innerText;
+        let input = document.getElementById('typeField').value.toUpperCase();
+        if (input === target) {
+            balance += 10;
+            updateUI();
+            document.getElementById('typeField').value = "";
+            let next = words[Math.floor(Math.random() * words.length)];
+            document.getElementById('targetWord').innerText = next;
+            
+            // Randomly show popup ad
+            if(Math.random() > 0.8) runAd('popup', 10);
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('balance').innerText = balance.toFixed(2);
+    }
+</script>
+
+</body>
+</html>
