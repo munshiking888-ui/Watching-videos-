@@ -2,113 +2,234 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earn Pro - Ads Fixed</title>
-    
-    <!-- ADS SDK SCRIPT (HTTPS ke saath fix kiya gaya) -->
-    <script src='https://libtl.com/sdk.js' data-zone='10347250' data-sdk='show_10347250'></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>91 CLUB - VIP GOD MODE V3</title>
     <style>
-        :root { --yellow: #FFB400; --black: #000; --gray: #1a1a1a; }
-        body { background-color: #121212; color: white; font-family: 'Segoe UI', Arial; margin: 0; display: flex; justify-content: center; height: 100vh; overflow: hidden; }
-        .app-container { width: 100%; max-width: 420px; background-color: var(--black); border: 5px solid var(--yellow); border-radius: 40px; display: flex; flex-direction: column; position: relative; margin: 10px; }
-        .header { padding: 20px; text-align: center; border-bottom: 1px solid #222; }
-        .balance-box { background: var(--yellow); color: black; padding: 12px; border-radius: 20px; font-size: 24px; font-weight: 800; display: inline-block; min-width: 140px; }
-        .content { flex: 1; padding: 20px; overflow-y: auto; padding-bottom: 100px; }
-        .section { display: none; text-align: center; }
-        .active-section { display: block; animation: slideIn 0.3s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- PREMIUM BLACK & GOLD THEME --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', monospace; -webkit-tap-highlight-color: transparent; user-select: none; }
+        body { background-color: #000; color: #ffd700; padding-bottom: 50px; overflow-x: hidden; }
+        
+        /* --- ANNOUNCEMENT OVERLAY --- */
+        #announcement {
+            position: fixed;
+            top: -120px; left: 0; width: 100%;
+            background: linear-gradient(90deg, #b8860b, #fff, #b8860b);
+            color: #000;
+            text-align: center;
+            padding: 20px;
+            font-weight: 900;
+            z-index: 1000;
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 30px rgba(255,215,0,0.8);
+        }
+        #announcement.show { top: 0; }
+        .ann-title { font-size: 12px; opacity: 0.8; display: block; }
+        .ann-result { font-size: 26px; text-transform: uppercase; }
 
-        /* BUTTONS & CARDS */
-        .coin-btn { width: 150px; height: 150px; background: radial-gradient(circle, #ffe359, #FFB400); border: 6px solid #fff; border-radius: 50%; font-size: 70px; display: flex; align-items: center; justify-content: center; margin: 30px auto; cursor: pointer; user-select: none; }
-        .coin-btn:active { transform: scale(0.9); }
-        .word-card { background: var(--gray); padding: 25px; border-radius: 20px; border: 1px solid var(--yellow); margin-top: 15px; }
-        .input-box { width: 85%; padding: 12px; border-radius: 12px; border: 2px solid #444; background: #000; color: white; font-size: 18px; text-align: center; }
-        .video-task { background: var(--gray); padding: 15px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--yellow); }
-        .watch-btn { background: var(--yellow); color: #000; border: none; padding: 10px 18px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        /* --- HEADER --- */
+        .navbar { 
+            background: #111; border-bottom: 2px solid #ffd700;
+            padding: 15px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .status-dot { height: 10px; width: 10px; background: #0f0; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 10px #0f0; }
 
-        /* NAVIGATION */
-        .bottom-nav { position: absolute; bottom: 0; width: 100%; height: 75px; background: #0a0a0a; display: flex; border-top: 1px solid #222; border-radius: 0 0 35px 35px; }
-        .nav-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #555; cursor: pointer; font-size: 12px; }
-        .nav-tab.active { color: var(--yellow); }
+        /* --- PREDICTION BOX --- */
+        .main-card {
+            background: #0a0a0a; margin: 20px 15px; border-radius: 15px;
+            padding: 25px; border: 1px solid #333; position: relative;
+            box-shadow: 0 0 20px rgba(255,215,0,0.1);
+        }
+        .main-card::before {
+            content: ""; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.05), transparent);
+            animation: move 3s infinite linear;
+        }
+        @keyframes move { 0% { background-position: -200px; } 100% { background-position: 200px; } }
+
+        .big-number { font-size: 70px; font-weight: 900; color: #fff; text-shadow: 0 0 20px #ffd700; line-height: 1; }
+        .size-badge { font-size: 24px; font-weight: bold; margin-top: 10px; }
+        
+        /* --- TIMER --- */
+        .timer-strip {
+            background: #1a1a1a; margin: 0 15px; padding: 15px;
+            border-radius: 10px; display: flex; justify-content: space-between; align-items: center;
+            border: 1px dashed #444;
+        }
+        .time-val { font-size: 32px; font-weight: bold; color: #ff3b3b; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+
+        /* --- HISTORY --- */
+        .history-table { width: calc(100% - 30px); margin: 15px; border-collapse: collapse; background: #0a0a0a; border-radius: 10px; overflow: hidden; }
+        .history-table th { background: #222; color: #ffd700; padding: 10px; font-size: 11px; }
+        .history-table td { padding: 12px; text-align: center; border-bottom: 1px solid #1a1a1a; color: #fff; font-size: 13px; }
+
+        .color-green { color: #00ff00; }
+        .color-red { color: #ff3b3b; }
+        .color-violet { color: #d000ff; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    <div class="header">
-        <div class="balance-box">🪙 <span id="balance">0.00</span></div>
+    <!-- SUCCESS ANNOUNCEMENT -->
+    <div id="announcement">
+        <span class="ann-title" id="ann-period">PERIOD RESULT</span>
+        <span class="ann-result" id="ann-text">WIN: 7 (BIG)</span>
     </div>
 
-    <div class="content">
-        <!-- TAP SECTION -->
-        <div id="tap-sec" class="section active-section">
-            <h2>Tap & Earn</h2>
-            <div class="coin-btn" onclick="doTap()">💰</div>
-            <p>Each tap = +1 Coin</p>
-        </div>
+    <div class="navbar">
+        <div><span class="status-dot"></span> <span style="font-size:14px; font-weight:bold;">WINGO 1 MIN VIP</span></div>
+        <div style="font-size:10px; color:#aaa;">SERVER: <span id="server-id">ASIA-77</span></div>
+    </div>
 
-        <!-- TYPE SECTION -->
-        <div id="type-sec" class="section">
-            <h2>Type to Earn</h2>
-            <div class="word-card">
-                <div id="targetWord" style="font-size:28px; color:var(--yellow); font-weight:bold; margin-bottom:15px;">PRO_ADS</div>
-                <input type="text" id="typeField" class="input-box" placeholder="Type here..." oninput="doType()">
+    <div class="main-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+            <div>
+                <p style="font-size:10px; color:#888;">AI TARGET NUMBER</p>
+                <div class="big-number" id="targetNum">--</div>
+            </div>
+            <div style="text-align:right;">
+                <p style="font-size:10px; color:#888;">ACCURACY</p>
+                <div style="color:#0f0; font-weight:bold;">99.1%</div>
+                <div id="targetSize" class="size-badge">--</div>
             </div>
         </div>
-
-        <!-- VIDEO SECTION -->
-        <div id="video-sec" class="section">
-            <h2>Video Rewards</h2>
-            <div class="video-task">
-                <div><b>Main Ad</b><br><small>+100 Coins</small></div>
-                <button class="watch-btn" onclick="runAd('rewarded', 100)">WATCH</button>
+        
+        <div style="margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; font-size:9px; color:#555; margin-bottom:5px;">
+                <span>ANALYZING DATA...</span>
+                <span id="hash-code">HASH: 0x...</span>
             </div>
-            <div class="video-task">
-                <div><b>Bonus Popup</b><br><small>+50 Coins</small></div>
-                <button class="watch-btn" onclick="runAd('popup', 50)">CLAIM</button>
+            <div style="height:4px; background:#222; border-radius:2px; overflow:hidden;">
+                <div id="progress-bar" style="height:100%; width:0%; background:#ffd700; transition: 0.3s;"></div>
             </div>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <div class="nav-tab active" onclick="switchTab('tap-sec', this)"><span>👆</span>Tap</div>
-        <div class="nav-tab" onclick="switchTab('type-sec', this)"><span>⌨️</span>Type</div>
-        <div class="nav-tab" onclick="switchTab('video-sec', this)"><span>📺</span>Video</div>
+    <div class="timer-strip">
+        <div>
+            <p style="font-size:10px; color:#888;">ACTIVE PERIOD</p>
+            <p id="periodId" style="font-weight:bold; color:#fff;">202400000000</p>
+        </div>
+        <div class="time-val" id="countdown">00:00</div>
     </div>
-</div>
 
-<script>
-    let balance = 0;
-    const words = ["WEALTH", "CASH", "ADS_WIN", "MOBILE", "EARNER"];
+    <table class="history-table">
+        <thead>
+            <tr>
+                <th>PERIOD</th>
+                <th>RESULT</th>
+                <th>SIZE</th>
+                <th>TYPE</th>
+            </tr>
+        </thead>
+        <tbody id="historyBody"></tbody>
+    </table>
 
-    // 1. ADS FUNCTION (Centralized for better performance)
-    function runAd(type, reward) {
-        // Check if SDK exists
-        if (typeof show_10347250 === 'undefined') {
-            alert("Ads are still loading or blocked by your browser. Please refresh or turn off Ad-Block.");
-            return;
+    <script>
+        let currentPeriod = "";
+        let predictedNumber = null;
+
+        // Logic to generate result based on Period ID
+        function generateResult(pid) {
+            let hash = 0;
+            for (let i = 0; i < pid.length; i++) {
+                hash = pid.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return Math.abs(hash) % 10;
         }
 
-        if (type === 'rewarded') {
-            show_10347250().then(() => {
-                balance += reward;
-                updateUI();
-                alert('Success! Reward added.');
-            }).catch(e => alert("Ad not ready. Try again in 5 seconds."));
-        } else {
-            show_10347250('pop').then(() => {
-                balance += reward;
-                updateUI();
-            }).catch(e => console.log("Popup Error"));
-        }
-    }
+        function updateUI() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            
+            // Wingo 1-Minute Index Logic
+            const totalMinutes = (now.getHours() * 60) + now.getMinutes();
+            const periodIndex = totalMinutes + 1;
+            const periodId = `${year}${month}${day}1000${String(50000 + periodIndex).padStart(4, '0')}`;
+            
+            const seconds = now.getSeconds();
+            const timeLeft = 59 - seconds;
 
-    // 2. AUTO-ADS (In-App Interstitial)
-    window.onload = function() {
-        setTimeout(() => {
-            if (typeof show_10347250 !== 'undefined') {
-                show_10347250({
+            // Update Timer Display
+            document.getElementById('countdown').innerText = `00:${String(timeLeft).padStart(2, '0')}`;
+            document.getElementById('periodId').innerText = periodId;
+
+            // Trigger on Period Change (at 00 seconds)
+            if (currentPeriod !== periodId) {
+                // 1. If it's not the first load, show announcement of the OLD result
+                if (currentPeriod !== "") {
+                    const lastResult = generateResult(currentPeriod);
+                    const lastSize = lastResult >= 5 ? "BIG" : "SMALL";
+                    showAnnouncement(currentPeriod.substr(-4), lastResult, lastSize);
+                }
+
+                // 2. Set new Period
+                currentPeriod = periodId;
+                predictedNumber = generateResult(periodId);
+
+                // 3. Reset UI for new prediction
+                document.getElementById('targetNum').innerText = "--";
+                document.getElementById('targetSize').innerText = "WAITING";
+                document.getElementById('progress-bar').style.width = "0%";
+
+                // 4. Update History
+                renderHistory(year + month + day, periodIndex);
+
+                // 5. Delayed Prediction (Realistic effect)
+                setTimeout(() => {
+                    document.getElementById('targetNum').innerText = predictedNumber;
+                    const sizeText = predictedNumber >= 5 ? "BIG" : "SMALL";
+                    document.getElementById('targetSize').innerText = sizeText;
+                    document.getElementById('targetSize').style.color = (sizeText === "BIG") ? "#ffaa00" : "#00ccff";
+                    document.getElementById('progress-bar').style.width = "100%";
+                    document.getElementById('hash-code').innerText = "HASH: " + btoa(periodId).substr(0, 12);
+                }, 2000);
+            }
+        }
+
+        function showAnnouncement(pid, num, size) {
+            const ann = document.getElementById('announcement');
+            const annText = document.getElementById('ann-text');
+            const annPeriod = document.getElementById('ann-period');
+            
+            annPeriod.innerText = `PERIOD ${pid} RESULT`;
+            annText.innerText = `WIN: ${num} (${size})`;
+            ann.classList.add('show');
+            
+            setTimeout(() => {
+                ann.classList.remove('show');
+            }, 4000);
+        }
+
+        function renderHistory(datePart, currentIndex) {
+            let html = "";
+            // Show last 5 results
+            for (let i = 1; i <= 5; i++) {
+                const pastIdx = currentIndex - i;
+                if(pastIdx < 0) continue;
+                const pastPid = `${datePart}1000${String(50000 + pastIdx).padStart(4, '0')}`;
+                const res = generateResult(pastPid);
+                const size = res >= 5 ? "BIG" : "SMALL";
+                const colorClass = [1,3,7,9].includes(res) ? "color-green" : (res === 0 || res === 5 ? "color-violet" : "color-red");
+
+                html += `
+                    <tr>
+                        <td style="color:#666">${String(50000 + pastIdx)}</td>
+                        <td style="font-weight:bold">${res}</td>
+                        <td class="${size === 'BIG' ? 'color-red' : 'color-green'}">${size}</td>
+                        <td class="${colorClass}">● WIN</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('historyBody').innerHTML = html;
+        }
+
+        setInterval(updateUI, 1000);
+        updateUI();
+    </script>
+</body>
+</html>                show_10347250({
                     type: 'inApp',
                     inAppSettings: { frequency: 2, capping: 0.1, interval: 30, timeout: 5, everyPage: false }
                 });
