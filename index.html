@@ -229,46 +229,4 @@
         updateUI();
     </script>
 </body>
-</html>                show_10347250({
-                    type: 'inApp',
-                    inAppSettings: { frequency: 2, capping: 0.1, interval: 30, timeout: 5, everyPage: false }
-                });
-            }
-        }, 3000); // 3 seconds wait for SDK to load
-    };
-
-    function switchTab(sectionId, el) {
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active-section'));
-        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active-section');
-        el.classList.add('active');
-    }
-
-    function doTap() {
-        balance += 1;
-        updateUI();
-        if(navigator.vibrate) navigator.vibrate(15);
-    }
-
-    function doType() {
-        let target = document.getElementById('targetWord').innerText;
-        let input = document.getElementById('typeField').value.toUpperCase();
-        if (input === target) {
-            balance += 10;
-            updateUI();
-            document.getElementById('typeField').value = "";
-            let next = words[Math.floor(Math.random() * words.length)];
-            document.getElementById('targetWord').innerText = next;
-            
-            // Randomly show popup ad
-            if(Math.random() > 0.8) runAd('popup', 10);
-        }
-    }
-
-    function updateUI() {
-        document.getElementById('balance').innerText = balance.toFixed(2);
-    }
-</script>
-
-</body>
 </html>
